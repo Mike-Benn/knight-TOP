@@ -10,7 +10,7 @@ function Gamespace() {
 
     const setName = (val) => name = val;
 
-    const setCoordinates = (val) => coordinates = val;
+    const setCoordinates = (row , col) => coordinates = [row , col];
 
     return {
         getName,
