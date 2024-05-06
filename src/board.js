@@ -19,6 +19,7 @@ function Board() {
 
     const getAdjacencyList = () => adjacencyList;
 
+    // Returns Gamespace at coordinates
     const getSpaceAt = (row , col) => {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
             return "The coordinates entered are out of bounds, please choose a row and column value between 0 and 7.";
@@ -27,6 +28,7 @@ function Board() {
         }
 
     }
+
 
     const resetBoard = () => {
         board = [
@@ -41,6 +43,7 @@ function Board() {
         ]
     };
 
+    // Checks all 8 moves of a knight to see if the move is valid, if it is then adds the possible move as an adjacent space
     const generateAdjacents = (row , col) => {
         let adjArray = [];
 
@@ -95,6 +98,7 @@ function Board() {
 
     }
 
+    
     const generateAdjacencyList = () => {
         let rows = 8;
         let columns = 8;
@@ -108,13 +112,7 @@ function Board() {
         }
     }
 
-    const printAdjacencyList = () => {
-        adjacencyList.forEach((value , key) => {
-            console.log(key.getName());
-            console.log(value);
-        })
-    }
-
+    // Prints total moves and path taken to target space from starting space
     const knightMoves = (start , end) => {
         let startingNode = getSpaceAt(start[0] , start[1]);
         let currentNode = startingNode;
@@ -132,10 +130,6 @@ function Board() {
             parent.set(adjacentNodes[i] , lastParent);
         }
     
-        
-
-
-
         while (primaryQueue.length > 0 || secondaryQueue.length > 0) {
 
             while (primaryQueue.length > 0) {
@@ -150,7 +144,8 @@ function Board() {
                             currentNode = parent.get(currentNode);
                         } else {
                             returnArray[1].push(parent.get(currentNode).getName());
-                            return returnArray;
+                            printResults(returnArray);
+                            return;
                             
                         }
                     }
@@ -163,10 +158,7 @@ function Board() {
                             parent.set(adjacentNodes[i] , currentNode);
                         }
                     }
-                    
                 }
-
-
             }
             
             primaryQueue = secondaryQueue;
@@ -175,11 +167,20 @@ function Board() {
             distance++;
         }
         
-        
+    }
 
+    // Used in knightMoves to print results to console
+    const printResults = (array) => {
+        let distance = array[0];
+        let path = array[1];
+        let length = path.length;
+
+        console.log(`You made it in ${distance} moves! Here's your path:`);
+        for (let i = length - 1; i >= 0; i--) {
+            console.log(`[${path[i][0]},${path[i][1]}]`);
+        }
 
     }
-    
     return {
         getBoard,
         getAdjacencyList,
